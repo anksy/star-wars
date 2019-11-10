@@ -7,4 +7,4 @@ export const methods = {
     DELETE: "DELETE"
 }
 
-export const colors = ["green", "red", "blue", "voilet", "orange", "pink", "navy", "teal", "brown", "grey"];
+export const colors = ["green", "red", "blue", "violet", "orange", "pink", "navy", "teal", "brown", "olivedrab"];

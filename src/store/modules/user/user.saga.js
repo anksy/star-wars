@@ -12,7 +12,6 @@ function* doLoginRegister(action){
     yield put({ type: USER_LOADING_STATE, loading: true });
     try {
         const {data} = yield call(__api_doLogin, action.payload);
-
         /* register user token to cookie */
         if(data && data.count === 1){
             let user = data.results[0];
@@ -32,7 +31,7 @@ function* doLoginRegister(action){
         }else{
             yield put({ type: APP_NOTIFICATION, error: {message: "User doesn't exists", type:"red"} });    
         }
-        
+        yield put({ type: USER_LOADING_STATE, loading: false });        
     } catch (error) {
         yield put({ type: USER_LOADING_STATE, loading: false });
         yield put({ type: APP_NOTIFICATION, error: {message: (error && error.message) || CONNECTION_FAILED, type:"red"} });

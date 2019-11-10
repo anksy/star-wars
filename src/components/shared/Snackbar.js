@@ -32,7 +32,7 @@ class Snack extends React.Component{
                 open={this.state.open}
                 onClose={this.handleClose}
                 autoHideDuration={6000}
-                ContentProps={{ 'aria-describedby': Math.random()+'id' }}
+                ContentProps={{ 'aria-describedby': 'message-id' }}
             >
                 <SnackbarContent 
                     style={{ backgroundColor: this.props.error.type }}
@@ -43,7 +43,7 @@ class Snack extends React.Component{
     }
 }
 
-const mapStateToProps = store => ({ error: store.application.error });
+const mapStateToProps = state => ({ error: state.application.error });
 
 const mapDispatchToProps = { clearError };
 

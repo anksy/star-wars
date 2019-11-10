@@ -13,6 +13,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 
 /* importing components */
 import { renderTextField as InputField } from "../shared/form/Field";
+import Snackbar from "../shared/Snackbar";
 import { REQUIRED } from "../shared/form/Validation";
 /* importing actions */
 import { doLogin } from "../../store/modules/user/user.action";
@@ -71,6 +72,8 @@ class UserLogin extends React.Component{
                         </form>
                     </div>
                 </Grid>
+
+                <Snackbar />
             </Grid>
         );
   }

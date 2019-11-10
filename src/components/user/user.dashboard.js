@@ -12,6 +12,8 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import Container from '@material-ui/core/Container';
 import Button from '@material-ui/core/Button';
 
+/* importing actions */
+import { setNotification } from "../../store/modules/application/application.action";
 /* importing api */
 import { __api_searchPlanets } from "../../api/planet/api";
 /* importing css */
@@ -32,14 +34,6 @@ class UserDashboard extends React.PureComponent{
         }
     }
 
-   /*  static getDerivedStateFromProps(props, state){
-        if(props.loading !== state.loading){
-            return {...state, loading: props.loading}
-        }else{
-            return state;
-        }
-    } */
-
     logout = () => {
         session.clear("profile");
         window.location.href = "/";
@@ -51,8 +45,11 @@ class UserDashboard extends React.PureComponent{
         .then(response => {
             if(response.data && response.data.results){
                 this.setState({ planets: response.data.results, max: this.getMaxPopulation(response.data.results), loading: false });
+
+                if(!response.data.results.length) this.props.setNotification({ message: "No Planet Found! :(", type: "red"});
             }
-        })        
+        })
+        .catch(err => this.setState({ planets: [], max: 0, loading: false }))     
     }
 
     getMaxPopulation = (planets) => Math.max.apply(Math, planets.map(o => (parseInt(o.population) || 0)));
@@ -84,7 +81,7 @@ class UserDashboard extends React.PureComponent{
                         </div>}
                     </div>
 
-                    <footer >
+                    <footer>
                         <Container maxWidth="sm">
                             <Button type="button" fullWidth variant="contained" color="primary" className="submit-btn" onClick={this.logout}>
                                 Logout
@@ -99,7 +96,7 @@ class UserDashboard extends React.PureComponent{
 
 const Row = ({planet, idx, setWidth}) => {
     return(
-        <div className="rowcont">
+        <div className="rowcont" id={idx} color={colors[idx]}>
             <div className="planet-title">&nbsp;{planet.name} &nbsp;<small>Total Population: {planet.population}</small></div>
             <div className="planet-color" style={{width: setWidth(planet.population), backgroundColor: colors[idx]}} key={planet.name}></div> 
         </div>
@@ -110,4 +107,4 @@ const mapStateToProps = store => ({
     profile: store.user.profile || undefined,
 });
 
-export default connect(mapStateToProps)(UserDashboard);
+export default connect(mapStateToProps, { setNotification })(UserDashboard);
